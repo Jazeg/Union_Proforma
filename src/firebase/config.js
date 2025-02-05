@@ -1,11 +1,11 @@
-//firebase/config.js
+//src/firebase/config.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCh4fKzLMMbvtV4rD9VVUQ9kcf19EtBucw",
-  authDomain: "proformamanager.firebaseapp.com",
+  authDomain: window.location.hostname,
   projectId: "proformamanager",
   storageBucket: "proformamanager.firebasestorage.app",
   messagingSenderId: "393133157614",
