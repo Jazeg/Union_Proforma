@@ -25,7 +25,6 @@ export default function Login() {
     <div className="min-h-screen grid grid-cols-2">
       <div className="bg-[#4361EE] p-8 flex flex-col justify-center">
         <h1 className="text-white text-4xl font-bold mb-4">Panel Administrativo</h1>
-        <p className="text-white/80">Gestiona tu catálogo de productos y servicios de Vidriería La Unión S.A.C.</p>
       </div>
       <div className="flex items-center justify-center p-8">
         <div className="w-full max-w-md">

@@ -1,38 +1,42 @@
 //components/Sidebar.jsx
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { FileText, List, Settings } from 'lucide-react';
+import React, { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Sidebar from './Sidebar';
+import Navbar from './Navbar';
+import NewProforma from './NewProforma';
+import ListProformas from './ListProformas';
+import Settings from './Settings';
 
-export default function Sidebar() {
-  const links = [
-    { to: '/dashboard/new', icon: FileText, text: 'Nueva Proforma' },
-    { to: '/dashboard/list', icon: List, text: 'Listar Proformas' },
-    { to: '/dashboard/settings', icon: Settings, text: 'Configuración' }
-  ];
+export default function Dashboard() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
-    <aside className="w-64 bg-[#4361EE] text-white">
-      <div className="h-full flex flex-col">
-        <div className="p-4">
-          <h2 className="text-lg font-semibold">Vidriería La Unión</h2>
-        </div>
-        <nav className="flex-1 p-4">
-          {links.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                `flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                  isActive ? 'bg-white text-[#4361EE]' : 'hover:bg-[#3651D4]'
-                }`
-              }
-            >
-              <link.icon size={20} />
-              <span>{link.text}</span>
-            </NavLink>
-          ))}
-        </nav>
+    <div className="flex h-screen bg-gray-100">
+      <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed lg:relative lg:translate-x-0 z-30 transition-transform duration-300 ease-in-out`}>
+        <Sidebar />
       </div>
-    </aside>
+      
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <Navbar toggleSidebar={toggleSidebar} />
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+          <Routes>
+            <Route path="/" element={<Navigate to="/dashboard/new" replace />} />
+            <Route path="/new" element={<NewProforma />} />
+            <Route path="/list" element={<ListProformas />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </main>
+      </div>
+      
+      {/* Overlay para cerrar sidebar en móvil */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 lg:hidden z-20"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+    </div>
   );
 }
