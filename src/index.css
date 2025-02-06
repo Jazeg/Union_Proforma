@@ -23,3 +23,28 @@ button {
 button:focus {
   outline: none;
 }
+
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  .page-break {
+    break-after: page;
+  }
+
+  .no-print {
+    display: none;
+  }
+
+  .print-container {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    margin: 0;
+    background: white;
+    box-shadow: none;
+  }
+}

@@ -120,7 +120,7 @@ export default function NewProforma() {
                 <img src="/logo_union.jpg" alt="Logo" className="h-16 w-auto" />
                 <div>
                   <h1 className="text-xl font-bold text-gray-900">
-                    VIDRIERÍA LA UNIÓN SAC
+                    VIDRIERÍA LA UNIÓN S.A.C.
                   </h1>
                   <p className="text-sm text-gray-600">
                     PRINCIPAL » JR. SANTA ROSA NRO. 855 -
