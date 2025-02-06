@@ -8,10 +8,11 @@ export default function ProformaPage({
   pageNumber, 
   totalPages,
   clientData,
-  totals 
+  totals,
+  className
 }) {
   return (
-    <div className="w-[210mm] h-[297mm] bg-white shadow-lg print:shadow-none p-8 mb-8 relative">
+    <div className="w-[210mm] h-[297mm] bg-white shadow-lg print:shadow-none p-8 mb-8 relative print:mb-0">
       {isFirstPage && (
         <>
           {/* Header - Solo en primera página */}
@@ -105,6 +106,10 @@ export default function ProformaPage({
       )}
       
       <div className="absolute bottom-4 right-4 text-sm text-gray-500">
+        Página {pageNumber} de {totalPages}
+      </div>
+      
+      <div className="absolute bottom-4 right-4 text-sm text-gray-500 print:absolute print:bottom-4">
         Página {pageNumber} de {totalPages}
       </div>
     </div>
