@@ -1,5 +1,5 @@
 // components/NewProforma.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "./ui/card";
 import { Printer, Eye, Plus, Save, Trash2 } from "lucide-react";
@@ -8,27 +8,50 @@ import { useAuth } from "../contexts/AuthContext";
 export default function NewProforma() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      unidad: "UNIDADES",
-      descripcion: "",
-      cantidad: 1,
-      vUnitario: 0,
-      vVenta: 0,
-    },
-  ]);
 
-  const [clientData, setClientData] = useState({
-    tipoDoc: "RUC",
-    documento: "",
-    nombre: "",
-    direccion: "",
-    moneda: "SOLES",
-    fechaEmision: new Date().toISOString().split("T")[0],
-    fechaVencimiento: "",
-    condicionPago: "CONTADO",
+  // Inicialización de items usando localStorage
+  const [items, setItems] = useState(() => {
+    const savedItems = localStorage.getItem("proformaItems");
+    return savedItems
+      ? JSON.parse(savedItems)
+      : [
+          {
+            id: 1,
+            unidad: "UNIDADES",
+            descripcion: "",
+            cantidad: 1,
+            vUnitario: 0,
+            vVenta: 0,
+          },
+        ];
   });
+
+  // Inicialización de datos del cliente usando localStorage
+  const [clientData, setClientData] = useState(() => {
+    const savedClientData = localStorage.getItem("proformaClientData");
+    return savedClientData
+      ? JSON.parse(savedClientData)
+      : {
+          tipoDoc: "RUC",
+          documento: "",
+          nombre: "",
+          direccion: "",
+          moneda: "SOLES",
+          fechaEmision: new Date().toISOString().split("T")[0],
+          fechaVencimiento: "",
+          condicionPago: "CONTADO",
+        };
+  });
+
+  // Guardar en localStorage cada vez que se actualicen los items
+  useEffect(() => {
+    localStorage.setItem("proformaItems", JSON.stringify(items));
+  }, [items]);
+
+  // Guardar en localStorage cada vez que se actualicen los datos del cliente
+  useEffect(() => {
+    localStorage.setItem("proformaClientData", JSON.stringify(clientData));
+  }, [clientData]);
 
   const handleAddItem = () => {
     setItems([
@@ -70,6 +93,20 @@ export default function NewProforma() {
         },
       },
     });
+  };
+
+  // Limpia el localStorage al guardar
+  const handleSave = () => {
+    localStorage.removeItem("proformaItems");
+    localStorage.removeItem("proformaClientData");
+    // Agregar aquí la lógica de guardado (por ejemplo, enviar los datos a un backend)
+  };
+
+  // Limpia el localStorage al cancelar
+  const handleCancel = () => {
+    localStorage.removeItem("proformaItems");
+    localStorage.removeItem("proformaClientData");
+    // Agregar aquí la lógica de cancelación (por ejemplo, redirigir a otra página)
   };
 
   return (
@@ -367,9 +404,18 @@ export default function NewProforma() {
           <Printer size={18} />
           <span>Imprimir</span>
         </button>
-        <button className="flex items-center space-x-2 px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700">
+        <button
+          onClick={handleSave}
+          className="flex items-center space-x-2 px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700"
+        >
           <Save size={18} />
           <span>Guardar</span>
+        </button>
+        <button
+          onClick={handleCancel}
+          className="flex items-center space-x-2 px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700"
+        >
+          <span>Cancelar</span>
         </button>
       </div>
     </div>
