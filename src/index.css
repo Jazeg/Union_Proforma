@@ -30,36 +30,39 @@ button:focus {
     margin: 0;
   }
 
-  body.printing {
-    background: white !important;
+  body * {
+    visibility: hidden;
   }
 
-  body.printing > *:not(.print-container) {
-    display: none !important;
+  #print-content,
+  #print-content * {
+    visibility: visible;
   }
 
-  body.printing .print-container {
-    margin: 0 !important;
-    padding: 0 !important;
-    max-width: none !important;
+  #print-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
   }
 
-  body.printing .proforma-page {
+  .proforma-page {
     width: 210mm !important;
     min-height: 297mm !important;
-    padding: 15mm !important;
+    padding: 5mm!important;
     margin: 0 !important;
     page-break-after: always !important;
     break-after: page !important;
+    background: white !important;
+    box-shadow: none !important;
   }
 
-  body.printing .proforma-page:last-child {
+  .proforma-page:last-child {
     page-break-after: auto !important;
     break-after: auto !important;
   }
 
-  body.printing * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+  .print\:hidden {
+    display: none !important;
   }
 }
