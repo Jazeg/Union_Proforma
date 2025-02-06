@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft, Printer } from "lucide-react";
 import ProformaPage from "./ProformaPage";
 
-const MAX_ITEM_HEIGHT = 400;
+const MAX_ITEM_HEIGHT = 420;
 const LINE_HEIGHT = 12;
 
 export default function ProformaPreview() {
