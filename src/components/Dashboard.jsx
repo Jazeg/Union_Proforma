@@ -33,7 +33,7 @@ export default function Dashboard() {
  }
 
  return (
-   <div className="flex h-screen bg-gray-100 overflow-hidden">
+   <div className="flex h-screen bg-gray-100 overflow-hidden no-print">
      <div 
        className={`${isMobile ? 'fixed' : 'relative'} h-full bg-[#4361EE] transition-all duration-500 ease-in-out z-50
          ${isMobile ? (sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full') : (sidebarOpen ? 'w-64' : 'w-20')}`}

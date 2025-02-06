@@ -9,10 +9,18 @@ export default function ProformaPage({
   totalPages,
   clientData,
   totals,
-  className
+  className,
+  ...rest
 }) {
   return (
-    <div className="w-[210mm] h-[297mm] bg-white shadow-lg print:shadow-none p-8 mb-8 relative print:mb-0">
+    <div
+      className={`
+        ${className} 
+        w-[210mm] min-h-[297mm] bg-white shadow-lg print:shadow-none 
+        p-8 mb-8 relative print:mb-0 mt-8
+      `}
+      {...rest}
+    >
       {isFirstPage && (
         <>
           {/* Header - Solo en primera página */}
@@ -23,7 +31,9 @@ export default function ProformaPage({
                 <h1 className="text-xl font-bold">VIDRIERÍA LA UNIÓN S.A.C.</h1>
                 <p className="text-sm">PRINCIPAL » JR. SANTA ROSA NRO. 855 -</p>
                 <p className="text-sm">CAJAMARCA CHOTA CHOTA</p>
-                <p className="text-sm italic">Elegancia en cada cristal, innovación en cada detalle.</p>
+                <p className="text-sm italic">
+                  Elegancia en cada cristal, innovación en cada detalle.
+                </p>
                 <p className="text-sm">Contáctenos: 976 579 430 / 962 070 138</p>
                 <p className="text-sm">vidriosunion@hotmail.com</p>
               </div>
@@ -35,17 +45,29 @@ export default function ProformaPage({
             </div>
           </div>
 
-          {/* Cliente Info - Solo en primera página */}
+          {/* Información del Cliente - Solo en primera página */}
           <div className="grid grid-cols-2 gap-4 mb-8">
             <div>
-              <p><span className="font-semibold">DOCUMENTO:</span> {clientData.tipoDoc} {clientData.documento}</p>
-              <p><span className="font-semibold">CLIENTE:</span> {clientData.nombre?.toUpperCase()}</p>
-              <p><span className="font-semibold">DIRECCIÓN:</span> {clientData.direccion?.toUpperCase()}</p>
+              <p>
+                <span className="font-semibold">DOCUMENTO:</span> {clientData.tipoDoc} {clientData.documento}
+              </p>
+              <p>
+                <span className="font-semibold">CLIENTE:</span> {clientData.nombre?.toUpperCase()}
+              </p>
+              <p>
+                <span className="font-semibold">DIRECCIÓN:</span> {clientData.direccion?.toUpperCase()}
+              </p>
             </div>
             <div>
-              <p><span className="font-semibold">FECHA EMISIÓN:</span> {clientData.fechaEmision}</p>
-              <p><span className="font-semibold">FECHA VENCIMIENTO:</span> {clientData.fechaVencimiento || '-'}</p>
-              <p><span className="font-semibold">MONEDA:</span> {clientData.moneda}</p>
+              <p>
+                <span className="font-semibold">FECHA EMISIÓN:</span> {clientData.fechaEmision}
+              </p>
+              <p>
+                <span className="font-semibold">FECHA VENCIMIENTO:</span> {clientData.fechaVencimiento || '-'}
+              </p>
+              <p>
+                <span className="font-semibold">MONEDA:</span> {clientData.moneda}
+              </p>
             </div>
           </div>
         </>
@@ -99,17 +121,18 @@ export default function ProformaPage({
           </div>
 
           <div className="text-sm space-y-1">
-            <p>CONDICIÓN DE PAGO: {clientData.condicionPago?.toUpperCase()}</p>
-            <p>CUENTAS BANCARIAS: BBVA: 0011-0648-0200081173 / CCI: 01164800020008117333</p>
+            <p>
+              CONDICIÓN DE PAGO: {clientData.condicionPago?.toUpperCase()}
+            </p>
+            <p>
+              CUENTAS BANCARIAS: BBVA: 0011-0648-0200081173 / CCI: 01164800020008117333
+            </p>
           </div>
         </div>
       )}
-      
+
+      {/* Número de página */}
       <div className="absolute bottom-4 right-4 text-sm text-gray-500">
-        Página {pageNumber} de {totalPages}
-      </div>
-      
-      <div className="absolute bottom-4 right-4 text-sm text-gray-500 print:absolute print:bottom-4">
         Página {pageNumber} de {totalPages}
       </div>
     </div>
