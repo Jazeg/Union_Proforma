@@ -4,8 +4,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Printer } from 'lucide-react';
 import ProformaPage from './ProformaPage';
 
-// Ajusta este valor según el espacio disponible en la página
-const ITEMS_PER_PAGE = 10;
+// Altura máxima disponible para items en una página A4 (en píxeles)
+const MAX_ITEM_HEIGHT = 400; // Ajusta este valor según necesites
+const LINE_HEIGHT = 15; // Altura aproximada de cada línea de item
+const ITEMS_PER_PAGE = Math.floor(MAX_ITEM_HEIGHT / LINE_HEIGHT);
 
 export default function ProformaPreview() {
   const location = useLocation();
@@ -16,19 +18,32 @@ export default function ProformaPreview() {
 
   useEffect(() => {
     if (items) {
-      // Añadir índice original a cada item
       const itemsWithIndex = items.map((item, index) => ({
         ...item,
-        originalIndex: index
+        originalIndex: index,
+        // Calcular altura aproximada basada en la longitud de la descripción
+        estimatedHeight: Math.ceil(item.descripcion?.length / 50) * LINE_HEIGHT
       }));
 
-      // Dividir items en páginas
       const paginatedItems = [];
-      for (let i = 0; i < itemsWithIndex.length; i += ITEMS_PER_PAGE) {
-        paginatedItems.push(itemsWithIndex.slice(i, i + ITEMS_PER_PAGE));
+      let currentPage = [];
+      let currentHeight = 0;
+
+      itemsWithIndex.forEach((item) => {
+        if (currentHeight + item.estimatedHeight > MAX_ITEM_HEIGHT) {
+          paginatedItems.push(currentPage);
+          currentPage = [item];
+          currentHeight = item.estimatedHeight;
+        } else {
+          currentPage.push(item);
+          currentHeight += item.estimatedHeight;
+        }
+      });
+
+      if (currentPage.length > 0) {
+        paginatedItems.push(currentPage);
       }
 
-      // Si no hay items, crear al menos una página
       if (paginatedItems.length === 0) {
         paginatedItems.push([]);
       }
@@ -41,7 +56,6 @@ export default function ProformaPreview() {
 
   return (
     <div className="min-h-screen bg-gray-100 relative">
-      {/* Botones flotantes */}
       <div className="fixed right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-4 print:hidden z-50">
         <button
           onClick={() => navigate(-1)}
@@ -59,7 +73,6 @@ export default function ProformaPreview() {
         </button>
       </div>
 
-      {/* Páginas */}
       <div className="p-8 print:p-0 flex flex-col items-center">
         {pages.map((pageItems, index) => (
           <ProformaPage
