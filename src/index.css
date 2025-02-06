@@ -30,11 +30,15 @@ button:focus {
     margin: 0;
   }
 
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: white !important;
+  }
+
   body * {
     visibility: hidden;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    color-adjust: exact !important;
   }
 
   #print-content,
@@ -44,37 +48,39 @@ button:focus {
 
   #print-content {
     position: absolute;
-    left: 15mm;
+    left: 0;
     top: 0;
-    width: 217mm;
+    width: 210mm;
+    margin: 0;
+    padding: 0;
   }
 
   .proforma-page {
-    width: 210mm !important;
-    min-height: 297mm !important;
-    padding: 8mm 15mm 15mm !important;
-    margin: 0 !important;
-    page-break-after: always !important;
-    break-after: page !important;
-    background: white !important;
-    box-shadow: none !important;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 0;
+    padding: 15mm;
+    box-sizing: border-box;
+    page-break-after: always;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    position: relative;
+    background: white;
   }
 
   .proforma-page:last-child {
-    page-break-after: auto !important;
-    break-after: auto !important;
+    page-break-after: auto;
   }
 
-  /* Preservar colores y fondos */
   .bg-black {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
     background-color: black !important;
   }
 
   .text-white {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
     color: white !important;
-  }
-
-  img {
-    print-color-adjust: exact;
   }
 }

@@ -117,13 +117,13 @@ export default function NewProforma() {
             {/* Encabezado */}
             <div className="flex justify-between items-start mb-8">
               <div className="flex items-start space-x-4">
-                <img src="/logo_union.jpg" alt="Logo" className="h-16 w-auto" />
+                <img src="/logo_union.jpg" alt="Logo" className="h-20 w-auto" />
                 <div>
                   <h1 className="text-xl font-bold text-gray-900">
                     VIDRIERÍA LA UNIÓN S.A.C.
                   </h1>
                   <p className="text-sm text-gray-600">
-                    PRINCIPAL » JR. SANTA ROSA NRO. 855 -
+                    PRINCIPAL » AV. AVENIDA TODOS LOS SANTOS NRO. 1016 -
                   </p>
                   <p className="text-sm text-gray-600">CAJAMARCA CHOTA CHOTA</p>
                   <p className="text-sm italic text-gray-600">
