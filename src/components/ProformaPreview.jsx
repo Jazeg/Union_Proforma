@@ -33,7 +33,7 @@ export default function ProformaPreview() {
 
       {/* Documento */}
       <div className="p-8 print:p-0">
-        <div className="max-w-4xl mx-auto bg-white shadow-lg print:shadow-none p-8">
+        <div className="max-w-4xl mx-auto bg-white shadow-lg print:shadow-none p-8 min-h-[297mm] w-[210mm] relative">
           {/* Encabezado */}
           <div className="flex justify-between items-start mb-8">
             <div className="flex items-start space-x-4">
@@ -82,7 +82,7 @@ export default function ProformaPreview() {
             </div>
           </div>
 
-          {/* Tabla con estilos actualizados */}
+          {/* Tabla con estilos actualizados y filas vacías para altura mínima */}
           <table className="w-full mb-8">
             <thead>
               <tr className="bg-black text-white text-sm">
@@ -107,33 +107,45 @@ export default function ProformaPreview() {
                   <td className="px-2 py-1 text-right">{item.vVenta.toFixed(2)}</td>
                 </tr>
               ))}
+              {/* Filas vacías para mantener altura mínima */}
+              {Array.from({ length: Math.max(0, 10 - items.length) }).map((_, index) => (
+                <tr key={`empty-${index}`} className="border-b h-8">
+                  <td className="px-2 py-1">&nbsp;</td>
+                  <td className="px-2 py-1">&nbsp;</td>
+                  <td className="px-2 py-1">&nbsp;</td>
+                  <td className="px-2 py-1">&nbsp;</td>
+                  <td className="px-2 py-1">&nbsp;</td>
+                  <td className="px-2 py-1">&nbsp;</td>
+                </tr>
+              ))}
             </tbody>
           </table>
 
-          {/* Totales */}
-          <div className="flex justify-end mb-8">
-            <div className="w-64">
-              <div className="flex justify-between py-1">
-                <span>GRAVADO</span>
-                <span>S/ {totals.gravado.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between py-1">
-                <span>I.G.V. 18%</span>
-                <span>S/ {totals.igv.toFixed(2)}</span>
-              </div>
-              <div className="flex justify-between py-2 font-bold border-t border-gray-200">
-                <span>TOTAL</span>
-                <span>S/ {totals.total.toFixed(2)}</span>
+          {/* Footer siempre al final */}
+          <div className="absolute bottom-8 left-8 right-8">
+            <div className="flex justify-end mb-8">
+              <div className="w-64">
+                <div className="flex justify-between py-1">
+                  <span>GRAVADO</span>
+                  <span>S/ {totals.gravado.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span>I.G.V. 18%</span>
+                  <span>S/ {totals.igv.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between py-2 font-bold border-t border-gray-200">
+                  <span>TOTAL</span>
+                  <span>S/ {totals.total.toFixed(2)}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Pie de página */}
-          <div className="text-sm space-y-1">
-            <p>CONDICIÓN DE PAGO: {clientData.condicionPago?.toUpperCase()}</p>
-            <p>
-              CUENTAS BANCARIAS: BBVA: 0011-0648-0200081173 / CCI: 01164800020008117333
-            </p>
+            <div className="text-sm space-y-1">
+              <p>CONDICIÓN DE PAGO: {clientData.condicionPago?.toUpperCase()}</p>
+              <p>
+                CUENTAS BANCARIAS: BBVA: 0011-0648-0200081173 / CCI: 01164800020008117333
+              </p>
+            </div>
           </div>
         </div>
       </div>
