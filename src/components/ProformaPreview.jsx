@@ -6,7 +6,7 @@ import ProformaPage from './ProformaPage';
 
 // Altura máxima disponible para items en una página A4 (en píxeles)
 const MAX_ITEM_HEIGHT = 400; // Ajusta este valor según necesites
-const LINE_HEIGHT = 15; // Altura aproximada de cada línea de item
+const LINE_HEIGHT = 12; // Altura aproximada de cada línea de item
 const ITEMS_PER_PAGE = Math.floor(MAX_ITEM_HEIGHT / LINE_HEIGHT);
 
 export default function ProformaPreview() {
