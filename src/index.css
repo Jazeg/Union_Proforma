@@ -25,26 +25,37 @@ button:focus {
 }
 
 @media print {
+  /* Resetear estilos para el cuerpo */
   body {
-    margin: 0;
-    padding: 0;
-    background: white;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    -webkit-print-color-adjust: exact;
   }
 
+  /* Configurar tamaño de página A4 */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  /* Forzar saltos de página */
   .page-break {
+    page-break-after: always;
     break-after: page;
   }
 
+  /* Ocultar elementos no deseados */
   .no-print {
-    display: none;
+    display: none !important;
   }
 
+  /* Asegurar que el contenido ocupe toda la página */
   .print-container {
-    width: 210mm;
-    min-height: 297mm;
-    padding: 20mm;
-    margin: 0;
-    background: white;
-    box-shadow: none;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    padding: 15mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
   }
 }

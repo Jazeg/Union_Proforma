@@ -4,10 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Printer } from 'lucide-react';
 import ProformaPage from './ProformaPage';
 
-// Altura máxima disponible para items en una página A4 (en píxeles)
-const MAX_ITEM_HEIGHT = 400; // Ajusta este valor según necesites
-const LINE_HEIGHT = 12; // Altura aproximada de cada línea de item
-const ITEMS_PER_PAGE = Math.floor(MAX_ITEM_HEIGHT / LINE_HEIGHT);
+const MAX_ITEM_HEIGHT = 400;
+const LINE_HEIGHT = 12;
 
 export default function ProformaPreview() {
   const location = useLocation();
@@ -16,13 +14,42 @@ export default function ProformaPreview() {
   const { clientData, items, totals } = data || {};
   const [pages, setPages] = useState([]);
 
+  const handlePrint = () => {
+    const printCSS = `
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      @media print {
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        .page-break {
+          page-break-after: always;
+        }
+        .page-break:last-child {
+          page-break-after: auto;
+        }
+      }
+    `;
+
+    const style = document.createElement('style');
+    style.textContent = printCSS;
+    document.head.appendChild(style);
+
+    window.print();
+
+    document.head.removeChild(style);
+  };
+
   useEffect(() => {
     if (items) {
+      // Se agrega un índice y se estima la altura de cada item según la longitud de la descripción.
       const itemsWithIndex = items.map((item, index) => ({
         ...item,
         originalIndex: index,
-        // Calcular altura aproximada basada en la longitud de la descripción
-        estimatedHeight: Math.ceil(item.descripcion?.length / 50) * LINE_HEIGHT
+        estimatedHeight: Math.ceil((item.descripcion?.length || 0) / 50) * LINE_HEIGHT
       }));
 
       const paginatedItems = [];
@@ -56,6 +83,7 @@ export default function ProformaPreview() {
 
   return (
     <div className="min-h-screen bg-gray-100 relative">
+      {/* Botones flotantes */}
       <div className="fixed right-4 top-1/2 transform -translate-y-1/2 flex flex-col gap-4 print:hidden z-50">
         <button
           onClick={() => navigate(-1)}
@@ -65,7 +93,7 @@ export default function ProformaPreview() {
           <ArrowLeft size={24} />
         </button>
         <button
-          onClick={() => window.print()}
+          onClick={handlePrint}
           className="flex items-center justify-center p-3 bg-[#4361EE] rounded-full shadow-lg text-white hover:bg-[#3651D4] hover:shadow-xl transition-all"
           title="Imprimir"
         >
@@ -73,6 +101,7 @@ export default function ProformaPreview() {
         </button>
       </div>
 
+      {/* Contenedor principal para impresión */}
       <div className="p-8 print:p-0 flex flex-col items-center">
         {pages.map((pageItems, index) => (
           <ProformaPage
@@ -84,6 +113,8 @@ export default function ProformaPreview() {
             totalPages={pages.length}
             clientData={clientData}
             totals={totals}
+            // Se agrega clase para forzar el salto de página, excepto en la última página.
+            className={index < pages.length - 1 ? 'page-break' : ''}
           />
         ))}
       </div>
